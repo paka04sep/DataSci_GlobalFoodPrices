@@ -1,0 +1,166 @@
+# Global Food Prices Data Science Project
+
+This project analyzes global food price trends using machine learning models to predict future wheat flour prices.
+
+## Project Overview
+
+- **Objective**: Analyze and predict wheat flour prices globally using historical data
+- **Dataset**: Global Food Prices database filtered for wheat flour commodities
+- **Models**: Linear Regression, Ridge Regression, Decision Tree, Random Forest, and LightGBM
+- **Output**: Price predictions and visualizations of trends
+
+## Project Structure
+
+```
+DataSci_GlobalFoodPrices/
+├── Project.ipynb          # Main Jupyter Notebook with all analysis steps
+├── requirements.txt       # Python dependencies
+├── README.md              # This file
+└── GlobalFoodPricesFull.csv  # Input data (required)
+```
+
+## Installation & Setup
+
+### 1. Clone/Download the Project
+
+```bash
+cd d:\PIM 3.2\DATA PROJECT GITHUB\DataSci_GlobalFoodPrices
+```
+
+### 2. Install Python Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+Or install individually:
+
+```bash
+pip install pandas sqlite3 sqlalchemy numpy matplotlib seaborn scikit-learn lightgbm pycountry pycountry-convert
+```
+
+### 3. Prepare Data
+
+- Place `GlobalFoodPricesFull.csv` in the project directory
+- The file should contain global food price data with columns: date, country_code, market, commodity, price_usd, category, unit, latitude, longitude, price_type, price_flag
+
+## Running the Project
+
+1. Open `Project.ipynb` in Jupyter Notebook or VS Code
+2. Run all cells in order (Cell 1 through Cell 8)
+3. Each cell represents a step in the pipeline:
+   - **Cell 1**: Create SQLite database from CSV
+   - **Cell 2**: Load and clean wheat flour data
+   - **Cell 3**: Normalize units to kg
+   - **Cell 4**: Feature engineering (Year, Month, Quarter, One-Hot Encoding)
+   - **Cell 5**: Train and evaluate 5 baseline models
+   - **Cell 6**: Fine-tune model parameters using GridSearchCV
+   - **Cell 7**: Visualize data trends and distributions
+   - **Cell 8**: Generate 5-year price predictions
+
+## Project Steps
+
+### Step 1: Data Loading
+- Reads CSV file and creates SQLite database
+- Stores data in `global_food_prices.db`
+
+### Step 2: Data Cleaning
+- Filters data for "Wheat flour" commodity only
+- Removes rows with missing values (NaN)
+- Converts date column to datetime format
+
+### Step 3: Unit Normalization
+- Standardizes all units to price per kilogram (USD/kg)
+- Handles various unit formats (kg, g, etc.)
+- Removes records with unmapped units
+
+### Step 4: Feature Engineering
+- Creates temporal features: Year, Month, Quarter
+- Applies One-Hot Encoding to country codes
+- Cleans column names for LightGBM compatibility
+
+### Step 5: Model Training (Baseline)
+Trains 5 models:
+1. Linear Regression
+2. Ridge Regression
+3. Decision Tree Regressor
+4. Random Forest Regressor
+5. LightGBM Regressor
+
+### Step 6: Model Fine-tuning
+- Uses GridSearchCV for hyperparameter optimization
+- Focuses on R² score improvement
+- Compares baseline vs tuned performance
+
+### Step 7: Data Visualization
+- Long-term price trends (Line plot)
+- Seasonality analysis (Box plot by month)
+- Top 10 countries by average price (Bar plot)
+- Price distribution by continent (Box plot)
+
+### Step 8: Future Predictions
+- Generates 5-year price predictions
+- Visualizes historical vs predicted prices
+- Yearly average comparison
+
+## Key Metrics
+
+- **R-squared**: Model accuracy (closer to 1.0 is better)
+- **MAE (Mean Absolute Error)**: Average prediction error in USD/kg
+- **R² Improvement (%)**: Improvement from baseline to tuned model
+
+## Requirements
+
+See `requirements.txt` for full list. Main dependencies:
+
+- **pandas**: Data manipulation
+- **sqlite3**: Database operations
+- **sqlalchemy**: ORM for database
+- **scikit-learn**: Machine learning models
+- **lightgbm**: Gradient boosting framework
+- **matplotlib & seaborn**: Data visualization
+- **pycountry & pycountry_convert**: Country/continent mapping
+- **numpy**: Numerical computations
+
+## Output Files
+
+The notebook creates:
+- `global_food_prices.db`: SQLite database
+- Visualizations (displayed in notebook)
+- Trained model objects stored in memory
+
+## Expected Results
+
+- Baseline model performance comparison
+- Fine-tuned model with improved R² score
+- Visual trends showing seasonal and yearly patterns
+- 5-year price forecast for wheat flour
+
+## Troubleshooting
+
+### Variables not found error
+- Make sure to run cells in order
+- If skipping cells, rerun Cell 1-2 first
+
+### Database not found
+- Verify `GlobalFoodPricesFull.csv` is in the project directory
+- Run Cell 1 to create the database
+
+### Import errors
+- Ensure all packages are installed: `pip install -r requirements.txt`
+- Check Python version (3.7+)
+
+## Author Notes
+
+- Analysis focuses on "Wheat flour" commodity only
+- All prices standardized to USD per kilogram
+- Model tuning prioritizes R² score optimization
+- Predictions assume historical patterns continue
+
+## License
+
+This is an educational data science project.
+
+## Contact
+
+For questions or improvements, refer to the project documentation in the notebook.
